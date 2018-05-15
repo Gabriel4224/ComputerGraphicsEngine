@@ -1,7 +1,11 @@
 #include "Gizmos.h"
 #include "gl_core_4_4.h"
+#pragma warning (push)
+#pragma warning (disable : 4201)
+#pragma warning (disable : 4310)
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
+#pragma warning (pop)
 #include <iostream>
 
 namespace aie {

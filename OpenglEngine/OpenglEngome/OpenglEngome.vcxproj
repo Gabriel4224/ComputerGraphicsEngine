@@ -84,7 +84,7 @@
     <IntDir>$(SolutionDIr)temp\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)dependencies\glfw\include;$(SolutionDir)dependencies\OpenGlCore;$(SolutionDir)dependencies\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)shaders\;$(SolutionDir)dependencies\glfw\include;$(SolutionDir)dependencies\OpenGlCore;$(SolutionDir)dependencies\glm;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)dependencies\glfw\lib-vc2017\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -149,13 +149,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\dependencies\OpenGlCore\gl_core_4_4.c" />
-    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="FirstPersonCamera.cpp" />
     <ClCompile Include="Gizmos.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MyApplication.cpp" />
+    <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Application.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="FirstPersonCamera.h" />
     <ClInclude Include="Gizmos.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MyApplication.h" />
+    <ClInclude Include="Shader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
