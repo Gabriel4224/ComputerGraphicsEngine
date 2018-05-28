@@ -7,8 +7,6 @@
 
 int MyApplication::run(std::string WindowTile, int WindowHeight, int Windowwidth, bool Fullscreen)
 {
-
-
 	auto success = Initialize(WindowTile, WindowHeight, Windowwidth, Fullscreen);
 
 	if (!success)

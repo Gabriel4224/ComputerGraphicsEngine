@@ -1,8 +1,10 @@
 #include "MyApplication.h"
 #include <gl_core_4_4.h>
 #include <GLFW\glfw3.h>
+#pragma warning (push)
+#pragma warning (disable : 4201)
+#pragma warning (disable : 4310)
 #include "Gizmos.h"
-
 #include "Camera.h"
 class DemoApp : public MyApplication
 {
@@ -10,19 +12,20 @@ class DemoApp : public MyApplication
 public :
 	virtual bool OnStartUp() override
 	{
-		aie::Gizmos::create(1000, 1000, 1000, 1000);
+		aie::Gizmos::create(10000, 10000, 10000, 10000);
 		m_Camera = new Camera(); 
-
-
-		m_shader.loadShader(aie::eShaderStage::VERTEX, "./shaders/simple.vert");
-		m_shader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/simple.frag");
-
+	
+		//m_quadMesh.draw();
+		m_shader.loadShader(aie::eShaderStage::VERTEX, "./shaders/SimpleVert.vert");
+		m_shader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/SimpleFrag.frag");
 		if (m_shader.link() == false)
 		{
 			printf("shader Error: %s\n ", m_shader.getLastError());
 			return false;
 		}
+
 		m_quadMesh.initialiseQuad();
+
 		m_Camera->setPosition({ 0,0,20,1 });
 		m_quadTransform = {
 			10,0,0,0,

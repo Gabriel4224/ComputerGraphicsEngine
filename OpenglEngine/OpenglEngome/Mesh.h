@@ -17,7 +17,9 @@ public:
 		glm::vec4 normal;
 		glm::vec2 texCoord;
 	};
-	void initialiseQuad(); 
+	void initialiseQuad();
+	void initialise(unsigned int vertexCount, const Vertex* verticles, unsigned int indexCount = 0, unsigned int* indices = nullptr);
+
 	virtual void draw(); 
 protected:
 	unsigned int tricount;

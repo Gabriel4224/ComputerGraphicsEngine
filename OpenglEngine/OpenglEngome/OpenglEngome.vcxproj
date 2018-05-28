@@ -84,7 +84,7 @@
     <IntDir>$(SolutionDIr)temp\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)shaders\;$(SolutionDir)dependencies\glfw\include;$(SolutionDir)dependencies\OpenGlCore;$(SolutionDir)dependencies\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dependencies\glfw\include;$(SolutionDir)dependencies\OpenGlCore;$(SolutionDir)dependencies\glm;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)dependencies\glfw\lib-vc2017\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

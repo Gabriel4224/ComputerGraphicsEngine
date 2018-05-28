@@ -42,6 +42,18 @@ void Mesh::initialiseQuad()
 	tricount = 2;
 }
 
+void Mesh::initialise(unsigned int vertexCount, const Vertex * verticles, unsigned int indexCount, unsigned int * indices)
+{
+	assert(vao == 0);
+
+	glGenBuffers(1, &vbo);
+	glGenVertexArrays(1, &vao);
+
+	glBindVertexArray(vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+}
+
 void Mesh::draw()
 {
 	glBindVertexArray(vao);
@@ -56,9 +68,9 @@ void Mesh::draw()
 	
 	aie::ShaderProgram shader;
 	//TODO: add shader file path 
-	shader.loadShader(aie::eShaderStage::VERTEX, "./shaders/simple.vert");
+	shader.loadShader(aie::eShaderStage::VERTEX, "./shaders/SimpleVert.vert");
 
-	shader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/simple.frag");
+	shader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/SimpleFrag.frag");
 
 	if (shader.link() == false)
 	{

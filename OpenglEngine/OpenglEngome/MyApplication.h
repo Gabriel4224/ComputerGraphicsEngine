@@ -2,6 +2,7 @@
 #include <iostream>
 #include <chrono>
 #include "Shader.h"
+#include "Mesh.h"
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 #include "Mesh.h"
@@ -15,12 +16,10 @@ public:
 	virtual void onShutDown() = 0;
 
 	int run(std::string WindowTile, int WindowHeight, int Windowwidth, bool Fullscreen);
-	//{
-	//return	 0;
-	//}
-	 bool Initialize(std::string WindowTile, int WindowHeight, int Windowwidth, bool Fullscreen);
-	 void gameloop();
-	 void ShutDown();
+
+    bool Initialize(std::string WindowTile, int WindowHeight, int Windowwidth, bool Fullscreen);
+    void gameloop();
+    void ShutDown();
 	//virtual void update(float deltaTime); 
 
 	void setRunning(bool running)  { m_isRunning = running;  }
