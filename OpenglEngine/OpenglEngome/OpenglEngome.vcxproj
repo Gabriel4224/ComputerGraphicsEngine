@@ -84,7 +84,7 @@
     <IntDir>$(SolutionDIr)temp\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)dependencies\glfw\include;$(SolutionDir)dependencies\OpenGlCore;$(SolutionDir)dependencies\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dependencies\stb;$(SolutionDir)dependencies\glfw\include;$(SolutionDir)dependencies\OpenGlCore;$(SolutionDir)dependencies\glm;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)dependencies\glfw\lib-vc2017\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -155,7 +155,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MyApplication.cpp" />
+    <ClCompile Include="OBJMesh.cpp" />
+    <ClCompile Include="OrbitingCamera.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -163,7 +166,11 @@
     <ClInclude Include="Gizmos.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MyApplication.h" />
+    <ClInclude Include="OBJMesh.h" />
+    <ClInclude Include="OrbitingCamera.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="tiny_obj_loader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

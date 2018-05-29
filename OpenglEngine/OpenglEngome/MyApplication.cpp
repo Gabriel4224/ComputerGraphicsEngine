@@ -87,7 +87,8 @@ void MyApplication::gameloop()
 	//	m_elapsedTime = std::chrono::duration<float>(elapsedTime).count;
 		
 		update();
-		render(); 
+		render();
+	//	m_OrbitCam.m_worldTransform; 
 		glfwSwapBuffers(m_window);
 		glfwPollEvents();
 	}

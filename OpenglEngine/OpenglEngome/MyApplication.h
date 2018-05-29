@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 #include "Mesh.h"
+#include "OBJMesh.h"
 class MyApplication
 {
 public:
@@ -40,9 +41,24 @@ protected:
 	glm::mat4 m_projectileMatrix; 
 
 	aie::ShaderProgram	m_shader;
+	aie::ShaderProgram	m_PhongShader;
+
+	aie::OBJMesh		m_BunnyMesh; 
+	glm::mat4			m_BunnyTransform; 
+
 	Mesh				m_quadMesh;
 	glm::mat4			m_quadTransform;
+	glm::mat4			m_ModelTransform;
+
+	struct Light 
+	{
+		glm::vec3 Direction; 
+		glm::vec3 Diffuse; 
+		glm::vec3 Specular; 
+	};
 	
+	Light				m_Light; 
+	glm::vec3			m_AmbientLight; 
 private:
 	GLFWwindow * m_window = nullptr;
 	bool m_isFullScreen;

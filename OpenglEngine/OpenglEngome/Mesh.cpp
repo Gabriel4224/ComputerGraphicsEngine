@@ -23,7 +23,7 @@ void Mesh::initialiseQuad()
 	glBindVertexArray(vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
+	//Vertex Positions
 	Vertex verticles[6];
 	verticles[0].position = { -0.5f,0,0.5f,1 };
 	verticles[1].position = { 0.5f,0,0.5f,1 };
@@ -31,11 +31,21 @@ void Mesh::initialiseQuad()
 	verticles[3].position = { -0.5f,0,-0.5,1 };
 	verticles[4].position = { 0.5f,0,0.5f,1 };
 	verticles[5].position = { 0.5f,0,-0.5f,1 };
+	//Vertex Normals
+	verticles[0].normal = {0,1,0,0};
+	verticles[1].normal = {0,1,0,0};
+	verticles[2].normal = {0,1,0,0};
+	verticles[3].normal = {0,1,0,0};
+	verticles[4].normal = {0,1,0,0};
+	verticles[5].normal = {0,1,0,0};
 	
 	glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(Vertex), verticles, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_TRUE, sizeof(Vertex), (void*)16);
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -52,6 +62,29 @@ void Mesh::initialise(unsigned int vertexCount, const Vertex * verticles, unsign
 	glBindVertexArray(vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+	glBufferData(GL_ARRAY_BUFFER,  vertexCount * sizeof(Vertex), verticles, GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+
+	if (indexCount != 0)
+	{
+		glGenBuffers(1, &ibo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+
+		tricount = indexCount / 3; 
+	}
+	else
+	{
+		tricount = vertexCount / 3;
+	}
+	glBindVertexArray(0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	
 }
 
 void Mesh::draw()
@@ -66,15 +99,18 @@ void Mesh::draw()
 		glDrawArrays(GL_TRIANGLES, 0, 3 * tricount);
 	}
 	
-	aie::ShaderProgram shader;
+	aie::ShaderProgram m_Shader;
+	aie::ShaderProgram m_PhongShader;
+
 	//TODO: add shader file path 
-	shader.loadShader(aie::eShaderStage::VERTEX, "./shaders/SimpleVert.vert");
+	m_Shader.loadShader(aie::eShaderStage::VERTEX, "./shaders/SimpleVert.vert");
+	m_Shader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/SimpleFrag.frag");
 
-	shader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/SimpleFrag.frag");
-
-	if (shader.link() == false)
+	m_PhongShader.loadShader(aie::eShaderStage::VERTEX, "./shaders/PhongVert.vert");
+	m_PhongShader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/PhongFrag.frag");
+	if (m_Shader.link() == false)
 	{
-		printf("Shader Error: %s \n ", shader.getLastError()); 
+		printf("Shader Error: %s \n ", m_Shader.getLastError());
 	}
 
 	
