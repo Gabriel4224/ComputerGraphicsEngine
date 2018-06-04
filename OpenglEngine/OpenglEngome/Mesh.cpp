@@ -103,11 +103,12 @@ void Mesh::draw()
 	aie::ShaderProgram m_PhongShader;
 
 	//TODO: add shader file path 
-	m_Shader.loadShader(aie::eShaderStage::VERTEX, "./shaders/SimpleVert.vert");
-	m_Shader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/SimpleFrag.frag");
-
-	m_PhongShader.loadShader(aie::eShaderStage::VERTEX, "./shaders/PhongVert.vert");
-	m_PhongShader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/PhongFrag.frag");
+	 m_Shader.loadShader(aie::eShaderStage::VERTEX, "./shaders/SimpleVert.vert");
+	 m_Shader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/SimpleFrag.frag");
+	//m_BunnyMesh.load("./stanford/bunny.obj");
+	//
+	 m_PhongShader.loadShader(aie::eShaderStage::VERTEX, "./shaders/PhongVert.vert");
+	 m_PhongShader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/PhongFrag.frag");
 	if (m_Shader.link() == false)
 	{
 		printf("Shader Error: %s \n ", m_Shader.getLastError());

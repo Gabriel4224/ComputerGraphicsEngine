@@ -18,7 +18,7 @@ public:
 
 	int run(std::string WindowTile, int WindowHeight, int Windowwidth, bool Fullscreen);
 
-    bool Initialize(std::string WindowTile, int WindowHeight, int Windowwidth, bool Fullscreen);
+    bool Initialize(std::string WindowTile, int WindowHeight, int Windowwidth,bool Fullscreen);
     void gameloop();
     void ShutDown();
 	//virtual void update(float deltaTime); 
@@ -44,7 +44,7 @@ protected:
 	aie::ShaderProgram	m_PhongShader;
 
 	aie::OBJMesh		m_BunnyMesh; 
-	glm::mat4			m_BunnyTransform; 
+	glm::mat4			m_DragonTransform; 
 
 	Mesh				m_quadMesh;
 	glm::mat4			m_quadTransform;

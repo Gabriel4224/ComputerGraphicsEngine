@@ -25,10 +25,10 @@ int MyApplication::run(std::string WindowTile, int WindowHeight, int Windowwidth
 	return 0;
 }
 
-bool MyApplication::Initialize(std::string WindowTile, int WindowHeight, int Windowwidth, bool Fullscreen)
+bool MyApplication::Initialize(std::string WindowTile, int WindowHeight, int Windowwidth,  bool Fullscreen)
 {
 	glfwInit();
-	
+
 
 	if (glfwInit() == false)
 		return -1;
@@ -39,7 +39,15 @@ bool MyApplication::Initialize(std::string WindowTile, int WindowHeight, int Win
 		monitor = glfwGetPrimaryMonitor(); 
 	}
 	GLFWwindow* window = glfwCreateWindow(WindowHeight, Windowwidth,WindowTile.c_str(), monitor, nullptr);
-
+	//while (glfwWindowShouldClose(window) == false &&
+	//	glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
+	//{
+	//	glClearColor(0, 0.50f, 0.60f, 1);
+	//	glEnable(GL_DEPTH);
+	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//	glfwSwapBuffers(window);
+	//	glfwPollEvents();
+	//}
 
 	if (window == nullptr)
 	{
@@ -78,6 +86,7 @@ void MyApplication::gameloop()
 	{
 		auto now = std::chrono::high_resolution_clock::now();
 		auto timetaken = now - m_PreviousTime; 
+		//glClearColor(0.50f, 0.50f, 0.60f, 1);
 
 		//auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(timetaken);
 //		m_dt = std::chrono::duration<float>(timetaken).count;
@@ -93,30 +102,28 @@ void MyApplication::gameloop()
 		glfwPollEvents();
 	}
 
-	//while (glfwWindowShouldClose(m_window) == false &&
-	//	glfwGetKey(m_window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
-	//{
-	//	glClearColor(0, 0.50f, 0.60f, 1);
-	//	glEnable(GL_DEPTH);
-	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//
-	//	aie::Gizmos::clear();
-	//
-	//	aie::Gizmos::addTransform(glm::mat4(1));
-	//
-	//	glm::vec4 white(1);
-	//	glm::vec4 black(0, 0, 0, 1);
-	//
-	//	for (int i = 0; i < 21; i++)
-	//	{
-	//		aie::Gizmos::addLine(glm::vec3(-10 + i, 0, 10),
-	//			glm::vec3(-10 + i, 0, -10),
-	//			i == 10 ? white : black);
-	//		aie::Gizmos::addLine(glm::vec3(10, 0, -10 + i),
-	//			glm::vec3(-10, 0, -10 + i),
-	//			i == 10 ? white : black);
-	//	}
-	//	//aie::Gizmos::draw(projection * view);
+	// while (glfwWindowShouldClose(m_window) == false &&
+	// 	glfwGetKey(m_window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
+	// {
+	// 	glEnable(GL_DEPTH);
+	// 
+	// 	aie::Gizmos::clear();
+	// 
+	// 	aie::Gizmos::addTransform(glm::mat4(1));
+	// 
+	// 	glm::vec4 white(1);
+	// 	glm::vec4 black(0, 0, 0, 1);
+	// 
+	// 	for (int i = 0; i < 21; i++)
+	// 	{
+	// 		aie::Gizmos::addLine(glm::vec3(-10 + i, 0, 10),
+	// 			glm::vec3(-10 + i, 0, -10),
+	// 			i == 10 ? white : black);
+	// 		aie::Gizmos::addLine(glm::vec3(10, 0, -10 + i),
+	// 			glm::vec3(-10, 0, -10 + i),
+	// 			i == 10 ? white : black);
+	// 	}
+	// 	//aie::Gizmos::draw(projection * view);
 
 	
 }

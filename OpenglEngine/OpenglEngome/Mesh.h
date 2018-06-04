@@ -4,6 +4,7 @@
 #include <GLFW\glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
+#include "OBJMesh.h"
 
 class Mesh
 {
@@ -19,6 +20,7 @@ public:
 	};
 	void initialiseQuad();
 	void initialise(unsigned int vertexCount, const Vertex* verticles, unsigned int indexCount = 0, unsigned int* indices = nullptr);
+	aie::OBJMesh		m_BunnyMesh;
 
 	virtual void draw(); 
 protected:
