@@ -29,40 +29,40 @@ public:
 		//m_OrbitingCam->SetlookAt(m_OrbitingCam->GetPosition(), m_OrbitingCam->GetDirection(), m_OrbitingCam->GetUpVector());
 		//m_OrbitingCam->SetlookAt(glm::vec3(5, 10, 20), glm::vec3(0, 2, 0), glm::vec3(0, 5, 1));
 
-		m_shader.loadShader(aie::eShaderStage::VERTEX, "./shaders/SimpleVert.vert");
-		m_shader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/SimpleFrag.frag");
-		//m_shader.loadShader(aie::eShaderStage::VERTEX, "./shaders/SimpleTextured.vert");
-		//m_shader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/SimpleTextured.frag");
-		if (m_shader.link() == false)
-		 {
+		//m_shader.loadShader(aie::eShaderStage::VERTEX, "./shaders/SimpleVert.vert");
+		//m_shader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/SimpleFrag.frag");
+	//	m_DragonShader.loadShader(aie::eShaderStage::VERTEX, "./shaders/SimpleTextured.vert");
+	//	m_DragonShader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/SimpleTextured.frag");
+	/*	if (m_shader.link() == false)
+		{
 		 	printf("shader Error: %s\n ", m_shader.getLastError());
 		 	return false;
-		 }
+		}*/
 
 		if (m_DragonMesh.load("./stanford/Dragon.obj") == false)
-		 {
+		{
 		 	printf("Dragon Mesh Error!\n");
 		 	return false;
-		 }
+		}
 
-		if (m_DragonTexture.load("./shaders/numbered_grid.tga") == false)
-		{
-			printf("Failed to load Texture! \n");
-			return false;
-		 }
-		// m_PhongShader.loadShader(aie::eShaderStage::VERTEX, "./shaders/PhongVert.vert");
-		// m_PhongShader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/PhongFrag.frag");
-		
-		//if (m_PhongShader.link() == false)
-		// {
-		// 	printf("shader Error: %s\n ", m_PhongShader.getLastError());
-		// 	return false;
-		// }
+		///////////////*if (m_DragonTexture.load("./textures/numbered_grid.tga") == false)
+		//////////////{
+		//////////////	printf("Failed to load Texture! \n");
+		//////////////	return false;
+		//////////////}*/
+		  m_PhongShader.loadShader(aie::eShaderStage::VERTEX, "./shaders/PhongVert.vert");
+		  m_PhongShader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/PhongFrag.frag");
+		 
+		 if (m_PhongShader.link() == false)
+		  {
+		  	printf("shader Error: %s\n ", m_PhongShader.getLastError());
+		  	return false;
+		  }
 		m_quadMesh.initialiseQuad();
 
-		m_Light.Diffuse = { 1,1,1 };
-		m_Light.Specular = { 1,0,1 };
-		m_AmbientLight = { 0.25f,0.25f,0.25f };
+		//m_Light.Diffuse = { 1,1,1 };
+		//m_Light.Specular = { 1,0,1 };
+		//m_AmbientLight = { 0.25f,0.25f,0.25f };
 
 		//m_Camera->setPosition({ 0,5,30,1 });
 
@@ -89,18 +89,20 @@ public:
 	    //glm::mat4 view = m_Camera->getViewMatric(); 
 		//glm::mat4 OrbitView = m_OrbitingCam->GetViewTransform();
 		//glm::mat4 projection = glm::perspective(glm::pi<float>() * 0.25f,(float)GetWindowWidth() / (float)GetWidnowHeight(), 0.1f, 1000.0f);
+		auto bvm = m_OrbitingCam->GetProjectionViewTransform()  * m_DragonTransform;
 
-	// m_PhongShader.bind();
-	// m_PhongShader.bindUniform("LightDirection", m_Light.Direction);
-	// m_PhongShader.bindUniform("Ia", m_AmbientLight);
-	// m_PhongShader.bindUniform("Id", m_Light.Diffuse);
-	// m_PhongShader.bindUniform("Is", m_Light.Specular);
-
+	  m_PhongShader.bind();
+	  m_PhongShader.bindUniform("PhongProjectionViewModel", bvm);
+	  m_PhongShader.bindUniform("LightDirection", m_Light.Direction);
+	  //m_PhongShader.bindUniform("Ia", m_AmbientLight);
+	  m_PhongShader.bindUniform("Id", m_Light.Diffuse);
+	//  m_PhongShader.bindUniform("Is", m_Light.Specular);
+	 
 		//glm::mat4 view = glm::lookAt(glm::vec3(20, 20, 20), glm::vec3(0), glm::vec3(0, 1, 0));
 	
-	//m_PhongShader.bindUniform("ProjectionViewModel", pvm);
-	//
-	//m_PhongShader.bindUniform("NormalMatrix", glm::inverseTranspose(glm::mat3(m_DragonTransform)));
+	 m_PhongShader.bindUniform("PhongProjectionViewModel", bvm);
+	 
+	 m_PhongShader.bindUniform("NormalMatrix", glm::inverseTranspose(glm::mat3(m_DragonTransform)));
 
 	//m_quadMesh.draw(); 
 
@@ -111,11 +113,10 @@ public:
 //	m_OrbitingCam->SetUpOrbit(m_OrbitingCam->GetPosition(), , 0.5f);
 	//m_OrbitingCam->SetUpOrbit(glm::vec3(0), (glm::vec3(5), glm::vec3(0)),0.8f);
 
-	auto pvm = m_OrbitingCam->GetProjectionViewTransform() * m_DragonTransform;
-	m_shader.bindUniform("ProjectionViewModel", pvm);
+	//m_shader.bind();
+	//auto pvm = m_OrbitingCam->GetProjectionViewTransform() * m_DragonTransform;
+	//m_shader.bindUniform("ProjectionViewModel", pvm);
 //	m_shader.bindUniform("DiffuseTexture", 0);
-	m_shader.bind();
-
 	m_DragonMesh.draw();
 
 	}
@@ -127,8 +128,8 @@ public:
 	}
 	virtual void update() override
 	{
-	time_t start = time(0);
-	m_Light.Direction = glm::normalize(glm::vec3(glm::cos(start * 2), glm::sin(start * 2), 0)); 
+	float time = glfwGetTime(); 
+	m_Light.Direction = glm::normalize(glm::vec3(glm::cos(time * 2), glm::sin(time * 2), 0));
 
 	if (glfwWindowShouldClose(getWindow()))
 	{
@@ -136,9 +137,9 @@ public:
 	}
 //	auto& cameratransform = m_Camera->getTransform(); 
 	auto cameratransform = m_OrbitingCam->GetWorldTransform();
-	float DeltaTime = 1; 
-	m_OrbitingCam->Update(DeltaTime);
-	auto rot = glm::angleAxis(getDeltaTime(), glm::vec3{ 0,1,0 });
+	//float DeltaTime = 1; 
+	//m_OrbitingCam->Update(DeltaTime);
+	//auto rot = glm::angleAxis(getDeltaTime(), glm::vec3{ 0,1,0 });
     //m_Camera->translate(glm::vec4{ 0,0,1,0 } *getDeltaTime() * 5.0f);
 	//m_OrbitingCam->translate(glm::vec4{ 0,0,1,0 } *getDeltaTime() * 5.0f);
 

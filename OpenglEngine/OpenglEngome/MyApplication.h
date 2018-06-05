@@ -31,19 +31,22 @@ protected:
 	int GetWidnowHeight() const { return m_WidnowHeigh; }
 	int GetWindowWidth() const {return m_WindowWidth;}
 	bool GetFullscreen() const { return m_isFullScreen; }
-
+	//float GetTime() const { return DeltaTime; }
 	bool getRunning() const { return m_isRunning; }
 	
 	float getEsalpsedtime() const { return m_elapsedTime; }
-	float getDeltaTime() const { return m_dt; }
+	float getDeltaTime() const { return DeltaTime; }
 
 	glm::mat4 m_viewMatrix; 
 	glm::mat4 m_projectileMatrix; 
 
 	aie::ShaderProgram	m_shader;
 	aie::ShaderProgram	m_PhongShader;
+	aie::ShaderProgram	m_DragonShader;
 
-	aie::OBJMesh		m_BunnyMesh; 
+
+	aie::Texture m_DragonTexture; 
+	aie::OBJMesh		m_DragonMesh; 
 	glm::mat4			m_DragonTransform; 
 
 	Mesh				m_quadMesh;
@@ -63,9 +66,9 @@ private:
 	GLFWwindow * m_window = nullptr;
 	bool m_isFullScreen;
 	bool m_isRunning; 
-	int m_WindowWidth = 720;
-	int m_WidnowHeigh = 1280;
-	float m_dt = 0.00f;
+	int m_WindowWidth = 1280;
+	int m_WidnowHeigh = 720;
+	float DeltaTime = 0.00f;
 	float m_elapsedTime = 0.0f; 
 	std::chrono::high_resolution_clock::time_point m_PreviousTime; 
 	std::chrono::high_resolution_clock::time_point m_applicationStartTime;

@@ -21,9 +21,8 @@ void main()
 
    float LambertTerm = max(0,min(1,dot(N,-L))); 
 
-   //vec3 Ambeint = Ia * Ka; 
-   //vec3 Diffuse = Id * Kd * LambertTerm;
+   vec3 Ambeint = Ia * Ka; 
    vec3 Diffuse = Id * LambertTerm;
 	
-   FragColour = vec4(Diffuse,1);
+   FragColour = vec4(Ambeint * Diffuse,1);
 }

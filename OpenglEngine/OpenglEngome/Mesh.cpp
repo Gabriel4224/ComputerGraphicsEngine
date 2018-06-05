@@ -31,6 +31,22 @@ void Mesh::initialiseQuad()
 	verticles[3].position = { -0.5f,0,-0.5,1 };
 	verticles[4].position = { 0.5f,0,0.5f,1 };
 	verticles[5].position = { 0.5f,0,-0.5f,1 };
+
+    //Vertex TexCoord
+	//Bottom Left
+	verticles[0].texCoord = { 0, 1 };
+	//Bottom Right
+	verticles[1].texCoord = { 1, 1 };
+	//Top Left
+	verticles[2].texCoord = { 0, 0 };
+	//Top Left
+	verticles[3].texCoord = { 0, 0 };
+	//Bottom Right
+	verticles[4].texCoord = { 1, 1 };
+	//Top Right
+	verticles[5].texCoord = { 1, 0 };
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)32);
 	//Vertex Normals
 	verticles[0].normal = {0,1,0,0};
 	verticles[1].normal = {0,1,0,0};
@@ -64,10 +80,12 @@ void Mesh::initialise(unsigned int vertexCount, const Vertex * verticles, unsign
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
 	glBufferData(GL_ARRAY_BUFFER,  vertexCount * sizeof(Vertex), verticles, GL_STATIC_DRAW);
+	
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)32);
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-
 	if (indexCount != 0)
 	{
 		glGenBuffers(1, &ibo);
@@ -103,6 +121,8 @@ void Mesh::draw()
 	aie::ShaderProgram m_PhongShader;
 
 	//TODO: add shader file path 
+	// m_Shader.loadShader(aie::eShaderStage::VERTEX, "./shaders/SimpleVert.vert");
+	// m_Shader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/SimpleFrag.frag");
 	 m_Shader.loadShader(aie::eShaderStage::VERTEX, "./shaders/SimpleVert.vert");
 	 m_Shader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/SimpleFrag.frag");
 	//m_BunnyMesh.load("./stanford/bunny.obj");

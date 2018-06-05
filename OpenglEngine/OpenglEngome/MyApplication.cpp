@@ -38,7 +38,7 @@ bool MyApplication::Initialize(std::string WindowTile, int WindowHeight, int Win
 	{
 		monitor = glfwGetPrimaryMonitor(); 
 	}
-	GLFWwindow* window = glfwCreateWindow(WindowHeight, Windowwidth,WindowTile.c_str(), monitor, nullptr);
+	GLFWwindow* window = glfwCreateWindow(Windowwidth, WindowHeight,WindowTile.c_str(), monitor, nullptr);
 	//while (glfwWindowShouldClose(window) == false &&
 	//	glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS)
 	//{

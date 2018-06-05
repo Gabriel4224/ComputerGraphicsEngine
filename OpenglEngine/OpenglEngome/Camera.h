@@ -12,6 +12,7 @@ public:
 	void SetlookAt(const glm::vec3 &FromPosition, const glm::vec3 & ToPosition, const glm::vec3 &YAxis = glm::vec3(0.0f, 1.0f, 0.0f));
 	void setPosition(glm::vec4 position);
 
+
 	glm::vec4 GetPosition() const;
 	glm::vec3 GetDirection() const;
 	glm::vec3 GetUpVector() const;
@@ -35,7 +36,7 @@ protected:
 	
 	glm::mat4 getViewMatric() const { return glm::inverse(m_worldTransform); }
 	
-	
+
 	const glm::mat4& getTransform()const { return m_worldTransform; }
 	glm::mat4& getTransform() { return m_worldTransform; }
 

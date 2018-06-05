@@ -3,6 +3,7 @@
 void Camera::SetPerspective(const float FovY, const float AspectRatio, const float NearDistance, const float FarDistance)
 {
 	m_ProjectionMatrix = glm::perspective(FovY, AspectRatio, NearDistance, FarDistance);
+	UpdateMatrices();
 }
 
 void Camera::SetlookAt(const glm::vec3 & FromPosition, const glm::vec3 & ToPosition, const glm::vec3 & YAxis)
