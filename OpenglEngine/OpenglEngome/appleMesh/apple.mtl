@@ -1,0 +1,10 @@
+newmtl apple:QuadMesh1
+illum 4
+Kd 0.00 0.00 0.00
+Ka 1.00 1.00 1.00
+Tf 1.00 1.00 1.00
+map_Kd appleD.jpg
+bump appleN.jpg -bm 0
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 11.30

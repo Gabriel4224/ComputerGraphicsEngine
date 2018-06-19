@@ -151,23 +151,25 @@
     <ClCompile Include="..\dependencies\OpenGlCore\gl_core_4_4.c" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="FirstPersonCamera.cpp" />
+    <ClCompile Include="FlyCamera.cpp" />
     <ClCompile Include="Gizmos.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MyApplication.cpp" />
+    <ClCompile Include="NewOrbitCamera.cpp" />
     <ClCompile Include="OBJMesh.cpp" />
-    <ClCompile Include="OrbitingCamera.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="FirstPersonCamera.h" />
+    <ClInclude Include="FlyCamera.h" />
     <ClInclude Include="Gizmos.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MyApplication.h" />
+    <ClInclude Include="NewOrbitCamera.h" />
     <ClInclude Include="OBJMesh.h" />
-    <ClInclude Include="OrbitingCamera.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="tiny_obj_loader.h" />

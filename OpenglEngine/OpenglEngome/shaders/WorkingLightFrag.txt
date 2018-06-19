@@ -1,0 +1,21 @@
+#version 410
+
+in vec3 vNormal;
+
+
+
+
+uniform vec3 LightDirection;
+
+out vec4 FragColour;
+
+void main() {
+vec3 N = normalize(vNormal);
+vec3 L = normalize(LightDirection);
+
+// calculate lambert term (negate light direction)
+float LambertTerm= max( 0, min( 1, dot( N, -L ) ) );
+
+// output lambert as grayscale
+FragColour = vec4( LambertTerm, LambertTerm,LambertTerm, 1 );
+}

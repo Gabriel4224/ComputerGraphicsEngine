@@ -1,14 +1,15 @@
 #include "Camera.h"
-
-void Camera::SetPerspective(const float FovY, const float AspectRatio, const float NearDistance, const float FarDistance)
+#include <cassert>
+void Camera::SetProjection(const float FovY, const float AspectRatio, const float NearDistance, const float FarDistance)
 {
 	m_ProjectionMatrix = glm::perspective(FovY, AspectRatio, NearDistance, FarDistance);
+	m_HasSetProjectionMatrix = true;
 	UpdateMatrices();
 }
 
-void Camera::SetlookAt(const glm::vec3 & FromPosition, const glm::vec3 & ToPosition, const glm::vec3 & YAxis)
+void Camera::SetlookAt(const glm::vec3 & CameraPos, const glm::vec3 & ToPosition, const glm::vec3 & YAxis)
 {
-	m_ViewMatrix = glm::lookAt(FromPosition, ToPosition, YAxis);
+	m_ViewMatrix = glm::lookAt(CameraPos, ToPosition, YAxis);
 	m_worldTransform = glm::inverse(m_ViewMatrix);
 	UpdateMatrices();
 }
@@ -18,6 +19,10 @@ void Camera::setPosition(glm::vec4 position)
 	m_worldTransform[3] = position;
 	m_ViewMatrix = glm::inverse(m_worldTransform);
 	UpdateMatrices(); 
+}
+
+void Camera::Update(float DeltaTime)
+{
 }
 
 glm::mat4 Camera::GetWorldTransform() const
@@ -32,7 +37,9 @@ glm::mat4 Camera::GetViewTransform() const
 
 glm::mat4 Camera::GetProjectionTransform() const
 {
-	return glm::mat4(m_ProjectionMatrix);
+	assert(m_HasSetProjectionMatrix && "Set PrjectionMatrix first");
+	return glm::mat4(m_ProjectionMatrix * m_ViewMatrix);
+
 }
 
 glm::mat4 Camera::GetProjectionViewTransform() const

@@ -19,12 +19,13 @@ public:
 		glm::vec2 texCoord;
 	};
 	void initialiseQuad();
-	void initialise(unsigned int vertexCount, const Vertex* verticles, unsigned int indexCount = 0, unsigned int* indices = nullptr);
-	aie::OBJMesh		m_BunnyMesh;
 
 	virtual void draw(); 
 protected:
 	unsigned int tricount;
+	// vao = Vertex Array Object 
+	// vbo = Vertex Buffer Object
+	// ibo = Index Buffer Object
 	unsigned int vao, vbo, ibo; 
 };
 

@@ -1,0 +1,49 @@
+newmtl steel
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd mpm_vol.09_p35_steel.jpg
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 11.30
+
+newmtl label
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd mpm_vol.09_p35_bottle_red_diff.jpg
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 11.30
+
+newmtl cap
+illum 4
+Kd 1.00 1.00 1.00
+Ka 1.00 1.00 1.00
+Tf 1.00 1.00 1.00
+map_Kd mpm_vol.09_p35_bottle_cap_diff.jpg
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 11.30
+
+newmtl cola
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd mpm_vol.09_p35_can_light_diff.jpg
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 11.30
+
+newmtl glass
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd mpm_vol.09_p35_can_red_diff.jpg
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 11.30

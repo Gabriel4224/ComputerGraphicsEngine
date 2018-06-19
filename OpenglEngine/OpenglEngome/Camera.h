@@ -6,13 +6,13 @@ class Camera
 {
 
 public:
-
+	virtual ~Camera() {};
 	//virtual void Update(double DeltaTime) overri;
-	void SetPerspective(const float FovY, const float AspectRatio, const float NearDistance, const float FarDistance);
-	void SetlookAt(const glm::vec3 &FromPosition, const glm::vec3 & ToPosition, const glm::vec3 &YAxis = glm::vec3(0.0f, 1.0f, 0.0f));
+	void SetProjection(const float FovY, const float AspectRatio, const float NearDistance, const float FarDistance);
+	void SetlookAt(const glm::vec3 &CameraPos, const glm::vec3 & ToPosition, const glm::vec3 &YAxis = glm::vec3(0.0f, 1.0f, 0.0f));
 	void setPosition(glm::vec4 position);
 
-
+	virtual void Update(float DeltaTime); 
 	glm::vec4 GetPosition() const;
 	glm::vec3 GetDirection() const;
 	glm::vec3 GetUpVector() const;
@@ -46,4 +46,5 @@ protected:
 private:
 	glm::mat4 ProjectionMatrix = glm::mat4(1);
 	bool m_HasSetProjectionMatrix = false; 
+
 };

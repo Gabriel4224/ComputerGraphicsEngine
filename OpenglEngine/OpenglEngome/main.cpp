@@ -9,174 +9,315 @@
 #pragma warning (disable : 4310)
 #include "Gizmos.h"
 #include "Camera.h"
-#include "OrbitingCamera.h"
+#include "NewOrbitCamera.h"
+#include "FlyCamera.h"
 class DemoApp : public MyApplication
 {
 public:
 	virtual bool OnStartUp() override
 	{
-		glClearColor(0.65, 0.65f, 0.65f, 1);
-
+		glClearColor(0.55f, 0.35f, 0.0f, 1);
 
 		aie::Gizmos::create(10000, 10000, 10000, 10000);
-		//m_Camera = new Camera();
-		m_OrbitingCam = new OrbitingCamera();
-		//m_OrbitingCam->GetDirection();
-		m_OrbitingCam->SetlookAt(glm::vec3(5), glm::vec3(0));
+		m_OrbitingCam = new NewOrbitCamera({ 10,10,10 }, { 0,0,0 }, 0.2f);
 
-		//m_OrbitingCam->setPosition({ 1,4,20,1 });
-		m_OrbitingCam->SetPerspective( 1 ,16 / 9.0f,1,100.0f );
-		//m_OrbitingCam->SetlookAt(m_OrbitingCam->GetPosition(), m_OrbitingCam->GetDirection(), m_OrbitingCam->GetUpVector());
-		//m_OrbitingCam->SetlookAt(glm::vec3(5, 10, 20), glm::vec3(0, 2, 0), glm::vec3(0, 5, 1));
+		//Sets Up Camera 
+		m_OrbitingCam->SetProjection(1, 16 / 9.0f, 1, 100.0f);
+		//**********************************************************************************************
+		// Loads in Shaders via file path
+		//**********************************************************************************************
+		m_shader.loadShader(aie::eShaderStage::VERTEX, "./shaders/test.vert");
+		m_shader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/test.frag");
 
-		m_shader.loadShader(aie::eShaderStage::VERTEX, "./shaders/SimpleVert.vert");
-		m_shader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/SimpleFrag.frag");
-		//m_shader.loadShader(aie::eShaderStage::VERTEX, "./shaders/SimpleTextured.vert");
-		//m_shader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/SimpleTextured.frag");
+		m_PhongShader.loadShader(aie::eShaderStage::VERTEX, "./shaders/Phong.vert");
+		m_PhongShader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/Phong.frag");
+
+		m_TextureShader.loadShader(aie::eShaderStage::VERTEX, "./shaders/SimpleTextured.vert");
+		m_TextureShader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/SimpleTextured.frag");
+
+		m_TextureLightingShader.loadShader(aie::eShaderStage::VERTEX, "./shaders/NormalMap.vert");
+		m_TextureLightingShader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/NormalMap.frag");
+		
+		//Diffuse lighting Adjustments 
+		 m_Light.Diffuse = { 10, 1, 0 };
+		 m_Light1.Diffuse = { 0, 0, 10 };
+		 m_Light2.Diffuse = { 0, 10, 0 };
+		 m_Light3.Diffuse = { 10, 0, 0 };
+		 m_Light4.Diffuse = { 50, 0, 0 };
+		 m_Light5.Diffuse = {0 , 50, 0 };
+
+		//Specular lighting Adjustments 
+		 m_Light.Specular = { 1, 1, 1 };
+		 m_Light1.Specular = { 1, 1, 1 };
+		 m_Light2.Specular = { 1, 1, 1 };
+		 m_Light3.Specular = { 1, 1, 1 };
+		 m_Light4.Specular = { 12, 12, 12 };
+		 m_Light5.Specular = { 10, 10, 10 };
+
+
+		 m_AmbientLight = { 1, 1, 1 };
+		//**********************************************************************************************
+		//Checks Errors in linking the shaders
+		//**********************************************************************************************
 		if (m_shader.link() == false)
-		 {
-		 	printf("shader Error: %s\n ", m_shader.getLastError());
-		 	return false;
-		 }
-
-		if (m_DragonMesh.load("./stanford/Dragon.obj") == false)
+		{
+			printf("shader Error: %s\n ", m_shader.getLastError());
+			return false;
+		}
+		if (m_PhongShader.link() == false)
+		{
+			printf("PhongShader Error: %s\n ", m_PhongShader.getLastError());
+			return false;
+		}
+		//**********************************************************************************************
+		//Loads In obj models via filepath 
+		//**********************************************************************************************
+		 if (m_SoulSpearMesh.load("./soulspear/soulspear.obj") == false)
 		 {
 		 	printf("Dragon Mesh Error!\n");
 		 	return false;
 		 }
-
-		if (m_DragonTexture.load("./shaders/numbered_grid.tga") == false)
-		{
-			printf("Failed to load Texture! \n");
-			return false;
+		 if (m_CokeMesh.load("./CanMesh/mpm_vol.09_p35.obj") == false)
+		 {
+		 	printf("Dragon Mesh Error!\n");
+		 	return false;
 		 }
-		// m_PhongShader.loadShader(aie::eShaderStage::VERTEX, "./shaders/PhongVert.vert");
-		// m_PhongShader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/PhongFrag.frag");
-		
-		//if (m_PhongShader.link() == false)
-		// {
-		// 	printf("shader Error: %s\n ", m_PhongShader.getLastError());
-		// 	return false;
-		// }
+	      if (m_BunnyMesh.load("./stanford/Bunny.obj") == false)
+	      {
+	      	printf("Bunny Mesh Error!\n");
+	      	return false;
+	      }
+		  if (m_DragonMesh.load("./stanford/Dragon.obj") == false)
+		  {
+			  printf("Dragon Mesh Error!\n");
+			  return false;
+		  }
+		  if (m_TableMesh.load("./Table/diningtable.obj ") == false)
+		  {
+			  printf("Table Mesh Error!\n");
+		 	  return false;
+		  }
+	    
+		  if (m_TextureShader.link() == false)
+		  {
+		  	printf("TextureShader Error: %s\n ", m_TextureShader.getLastError());
+		  	return false;    
+		  }
+		  if (m_TextureLightingShader.link() == false)
+		  {
+			  printf("TextureLightingShader Error: %s\n ", m_TextureShader.getLastError());
+			  return false;
+		  }
+	     
+	     //if (m_GridTexture.load("./textures/table.png") == false)
+	     //{
+	     //	printf("Failed to load Texture! \n");
+	     //	return false;
+	     //}
+	
 		m_quadMesh.initialiseQuad();
+		//**********************************************************************************************
+		// Size and position of ModelTransforms 
+		//											
+		//	{* * * * // Size of obj X 												
+		//	 * * * * // Size of obj Y										
+		//	 * * * * // Size of obj Z 								
+		//	 * * * *}// Position of obj X ,Y ,Z , 
+		//**********************************************************************************************
+		 m_quadTransform = {
+		 	20,0,0,0,
+		 	0,20,0,0,
+		 	0,0,20,0,
+		 	0,0,0,1 };
 
-		m_Light.Diffuse = { 1,1,1 };
-		m_Light.Specular = { 1,0,1 };
-		m_AmbientLight = { 0.25f,0.25f,0.25f };
-
-		//m_Camera->setPosition({ 0,5,30,1 });
-
-	 	// m_quadTransform = {
-	 	// 	10,0,0,0,
-	 	// 	0,10,0,0,
-	 	// 	0,0,10,0,
-	 	// 	0,0,0,1 };
-
-		m_DragonTransform = {
-			0.3, 0, 0, 0,
-			 0, 0.3 ,0 , 0,
-			 0, 0, 0.3, 0,
-			 0, 0, 0, 1.f
-	     };
-
+		m_SoulSpearTransform = {
+			1, 0, 0, 0,
+			0, 1 ,0 , 0,
+			0, 0, 1, 0,
+			-8, 0, 0, 1.f
+		};
+		 m_CokeTransform = {
+		 	0.025f, 0, 0, 0,
+		 	0, 0.025f ,0 , 0,
+		 	0, 0, 0.025f, 0,
+		 	6, 0, 0, 1.f
+		 };
+		  m_BunnyTransform = {
+		   	0.5f, 0, 0, 0,
+		   	0, 0.5 ,0 , 0,
+		   	0, 0, 0.5f, 0,
+		   	0, 0, -7, 01.f
+		   };
+		  m_DragonTransform = {
+		    0.5f, 0, 0, 0,
+		    0, 0.5 ,0 , 0,
+		    0, 0, 0.5f, 0,
+		    0, 0, 6, 01.f
+		  };
+		  m_TableTransform =
+		  {
+		    0.15, 0, 0, 0,
+		    0, 0.05 ,0 , 0,
+		    0, 0, 0.15, 0,
+		    -7, -6, 2, 1.f
+		  };
+		 glEnable(GL_DEPTH_TEST);
+		 glDisable(GL_CULL_FACE);
 		return true;
- 	}
+	}
+
+
+	virtual void onShutDown() override
+	{
+		aie::Gizmos::destroy();
+		//	delete m_Camera;
+	}
+	virtual void update() override
+	{
+
+		m_OrbitingCam->Update(0.0166f);
+
+		if (glfwWindowShouldClose(getWindow()))
+		{
+			setRunning(false);
+		}
+		auto cameratransform = m_OrbitingCam->GetWorldTransform();
+
+		//Rotates Lighting 
+		float time = glfwGetTime();
+	 	m_Light.Direction = glm::normalize(glm::vec3(glm::cos(time * 2), glm::sin(time * 2), 0));
+		m_Light1.Direction = glm::normalize(glm::vec3(0, glm::cos(time * 4), glm::sin(time * 4)));
+		
+		m_Light2.Direction = glm::normalize(glm::vec3(0, glm::cos(time * 2), glm::sin(time * 2)));
+		m_Light3.Direction = glm::normalize(glm::vec3(0, glm::cos(time * 4), glm::sin(time * 4)));
+
+		m_Light4.Direction = glm::normalize(glm::vec3(0, glm::cos(time * 2), glm::sin(time * 2)));
+		m_Light5.Direction = glm::normalize(glm::vec3(0, glm::cos(time * 4), glm::sin(time * 4)));
+
+		//**********************************************************************************************
+		// Draws the Grid in the engine
+		//**********************************************************************************************
+		aie::Gizmos::addTransform(glm::mat4(1), 1);
+		glEnable(GL_DEPTH);
+
+		aie::Gizmos::clear();
+
+		aie::Gizmos::addTransform(glm::mat4(1));
+
+		glm::vec4 white(1);
+		glm::vec4 black(0, 0, 0, 1);
+
+		for (int i = 0; i < 21; i++)
+		{
+			aie::Gizmos::addLine(glm::vec3(-10 + i, 0, 10),
+				glm::vec3(-10 + i, 0, -10),
+				i == 10 ? white : black);
+			aie::Gizmos::addLine(glm::vec3(10, 0, -10 + i),
+				glm::vec3(-10, 0, -10 + i),
+				i == 10 ? white : black);
+		}
+		aie::Gizmos::add2DAABB(glm::vec3{ 0,0,0 }, glm::vec3{ 5,5,5 }, glm::vec4{ 1,0,0,1 });
+	}
 
 	virtual void render() override
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	    //glm::mat4 view = m_Camera->getViewMatric(); 
-		//glm::mat4 OrbitView = m_OrbitingCam->GetViewTransform();
-		//glm::mat4 projection = glm::perspective(glm::pi<float>() * 0.25f,(float)GetWindowWidth() / (float)GetWidnowHeight(), 0.1f, 1000.0f);
-
-	// m_PhongShader.bind();
-	// m_PhongShader.bindUniform("LightDirection", m_Light.Direction);
-	// m_PhongShader.bindUniform("Ia", m_AmbientLight);
-	// m_PhongShader.bindUniform("Id", m_Light.Diffuse);
-	// m_PhongShader.bindUniform("Is", m_Light.Specular);
-
-		//glm::mat4 view = glm::lookAt(glm::vec3(20, 20, 20), glm::vec3(0), glm::vec3(0, 1, 0));
+		// Points camera at object
+		glm::mat4 OrbitView = glm::lookAt(glm::vec3(10), glm::vec3(0), glm::vec3(0, 1, 0));
+		// The field of view for the camera 
+		glm::mat4 projection = glm::perspective(glm::pi<float>() * 0.25f, (float)GetWindowWidth() / (float)GetWidnowHeight(), 0.1f, 1000.0f);
+		aie::Gizmos::draw(m_OrbitingCam->GetProjectionViewTransform());
+		//**********************************************************************************************
+		// Shader Bindings
+		//**********************************************************************************************
 	
-	//m_PhongShader.bindUniform("ProjectionViewModel", pvm);
-	//
-	//m_PhongShader.bindUniform("NormalMatrix", glm::inverseTranspose(glm::mat3(m_DragonTransform)));
+		//Grabs Texture bind
+		m_TextureShader.bind();
+	    //SpearViewModel is focused on the SoulSpear.obj in scene
+		auto SpearViewModel = m_OrbitingCam->GetProjectionViewTransform() * m_SoulSpearTransform;
+		//Binds the Textures to SoulSpear.obj
+		m_TextureShader.bindUniform("ProjectionViewModel", SpearViewModel);
+		//Draws The SoulSpear
+		m_SoulSpearMesh.draw();
+		
+		//CokeBottleViewModel is focused on the CokeBottle.obj and cokeCan (Both in the same obj) 
+		
+		//TableViewModel is focused on the diningtable.obj
+		auto TableViewModel = m_OrbitingCam->GetProjectionViewTransform() * m_TableTransform;
+		//Binds the Texture to the diningtable.obj
+		m_TextureShader.bindUniform("ProjectionViewModel", TableViewModel);
+		m_TableMesh.draw();
 
-	//m_quadMesh.draw(); 
+		m_PhongShader.bindUniform("SpecularPower", 1);
 
-	glm::mat4 OrbitView = glm::lookAt(glm::vec3(10), glm::vec3(0), glm::vec3(0, 1, 0));
-	glm::mat4 projection = glm::perspective(glm::pi<float>() * 0.25f, (float)GetWindowWidth() / (float)GetWidnowHeight(), 0.1f, 1000.0f);
-	aie::Gizmos::draw(m_OrbitingCam->GetProjectionViewTransform());
+	    m_PhongShader.bind();
+		//Binds AmbeintLighting 
+		m_PhongShader.bindUniform("Ia", m_AmbientLight);
 
-//	m_OrbitingCam->SetUpOrbit(m_OrbitingCam->GetPosition(), , 0.5f);
-	//m_OrbitingCam->SetUpOrbit(glm::vec3(0), (glm::vec3(5), glm::vec3(0)),0.8f);
+		//Binds Diffuse light Colour 
+		m_PhongShader.bindUniform("Id", m_Light.Diffuse);
+		m_PhongShader.bindUniform("Id1", m_Light1.Diffuse);
+		//Binds Specular light to ambeintLighting 
+		m_PhongShader.bindUniform("Ia", m_Light.Specular);
+		m_PhongShader.bindUniform("Ia", m_Light1.Specular);
+		//Binds the m_Light.Direction to LightDirection
+	    m_PhongShader.bindUniform("LightDirection", m_Light.Direction);
+		m_PhongShader.bindUniform("LightDirection1", m_Light1.Direction);
+		
+		auto CokeBottleViewModel = m_OrbitingCam->GetProjectionViewTransform() * m_CokeTransform;
+		//Binds the Texture to the CokeBottle.obj
+		m_TextureLightingShader.bindUniform("ProjectionViewModel", CokeBottleViewModel);
+		m_PhongShader.bindUniform("ProjectionViewModel", CokeBottleViewModel);
+		m_PhongShader.bindUniform("NormalMatrix", glm::inverseTranspose(glm::mat3(m_CokeTransform)));
+		m_CokeMesh.draw();
+	
+	
+		m_PhongShader.bindUniform("Id", m_Light2.Diffuse);
+		m_PhongShader.bindUniform("Id1", m_Light3.Diffuse);
+		//Binds Specular light to ambeintLighting 
+		m_PhongShader.bindUniform("Ia", m_Light2.Specular);
+		m_PhongShader.bindUniform("Ia", m_Light3.Specular);
+		//Binds the m_Light.Direction to LightDirection
+		m_PhongShader.bindUniform("LightDirection", m_Light2.Direction);
+		m_PhongShader.bindUniform("LightDirection1", m_Light3.Direction);
 
-	auto pvm = m_OrbitingCam->GetProjectionViewTransform() * m_DragonTransform;
-	m_shader.bindUniform("ProjectionViewModel", pvm);
-//	m_shader.bindUniform("DiffuseTexture", 0);
-	m_shader.bind();
 
-	m_DragonMesh.draw();
+	    auto BunnyViewModel = m_OrbitingCam->GetProjectionViewTransform() * m_BunnyTransform;
+		m_PhongShader.bindUniform("cameraPosition", glm::vec3( m_OrbitingCam->GetPosition()));
+		
+		//Binds the phong shader to the Bunnyviewmodel
+	    m_PhongShader.bindUniform("ProjectionViewModel", BunnyViewModel);
+	    m_PhongShader.bindUniform("NormalMatrix", glm::inverseTranspose(glm::mat3(m_BunnyTransform)));
+	    m_BunnyMesh.draw();
 
+		m_PhongShader.bindUniform("Id", m_Light4.Diffuse);
+		m_PhongShader.bindUniform("Id1", m_Light5.Diffuse);
+		//Binds Specular light to ambeintLighting 
+		m_PhongShader.bindUniform("Ia", m_Light4.Specular);
+		m_PhongShader.bindUniform("Ia", m_Light5.Specular);
+		//Binds the m_Light.Direction to LightDirection
+		m_PhongShader.bindUniform("LightDirection", m_Light4.Direction);
+		m_PhongShader.bindUniform("LightDirection1", m_Light5.Direction);
+
+		auto DragonViewModel = m_OrbitingCam->GetProjectionViewTransform() * m_DragonTransform;
+		m_PhongShader.bindUniform("cameraPosition", glm::vec3(m_OrbitingCam->GetPosition()));
+		m_PhongShader.bindUniform("ProjectionViewModel", DragonViewModel);
+		m_PhongShader.bindUniform("NormalMatrix", glm::inverseTranspose(glm::mat3(m_DragonTransform)));
+		m_DragonMesh.draw();
 	}
-
-	virtual void onShutDown() override
-	{
-		aie::Gizmos::destroy();
-	//	delete m_Camera;
-	}
-	virtual void update() override
-	{
-	time_t start = time(0);
-	m_Light.Direction = glm::normalize(glm::vec3(glm::cos(start * 2), glm::sin(start * 2), 0)); 
-
-	if (glfwWindowShouldClose(getWindow()))
-	{
-		setRunning(false); 
-	}
-//	auto& cameratransform = m_Camera->getTransform(); 
-	auto cameratransform = m_OrbitingCam->GetWorldTransform();
-	float DeltaTime = 1; 
-	m_OrbitingCam->Update(DeltaTime);
-	auto rot = glm::angleAxis(getDeltaTime(), glm::vec3{ 0,1,0 });
-    //m_Camera->translate(glm::vec4{ 0,0,1,0 } *getDeltaTime() * 5.0f);
-	//m_OrbitingCam->translate(glm::vec4{ 0,0,1,0 } *getDeltaTime() * 5.0f);
-
-	aie::Gizmos::addTransform(glm::mat4(1), 1);
-	 	glEnable(GL_DEPTH);
-	 
-	 	aie::Gizmos::clear();
-	 
-	 	aie::Gizmos::addTransform(glm::mat4(1));
-	 
-	 	glm::vec4 white(1);
-	 	glm::vec4 black(0, 0, 0, 1);
-	 
-	 	for (int i = 0; i < 21; i++)
-	 	{
-	 		aie::Gizmos::addLine(glm::vec3(-10 + i, 0, 10),
-	 			glm::vec3(-10 + i, 0, -10),
-	 			i == 10 ? white : black);
-	 		aie::Gizmos::addLine(glm::vec3(10, 0, -10 + i),
-	 			glm::vec3(-10, 0, -10 + i),
-	 			i == 10 ? white : black);
-	 	}
-	aie::Gizmos::add2DAABB(glm::vec3{ 0,0,0 }, glm::vec3{ 5,5,5 }, glm::vec4{ 1,0,0,1 });
-
-	}
-
 private:
-//	Camera *m_Camera; 
-	OrbitingCamera *m_OrbitingCam;
+
+	NewOrbitCamera * m_OrbitingCam;
+	FlyCamera * m_FlyCam;
 };
 
 
-int main()
-{
+int main(){
 
 	auto theApp = new DemoApp();
 	theApp->setRunning(true);
-//	theApp->gameloop();
+	//	theApp->gameloop();
 	return theApp->run("Application", 720, 1280, false);
 	delete theApp;
 
