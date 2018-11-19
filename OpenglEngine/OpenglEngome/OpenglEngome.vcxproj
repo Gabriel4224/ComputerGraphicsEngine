@@ -88,7 +88,7 @@
     <LibraryPath>$(SolutionDir)dependencies\glfw\lib-vc2017\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)dependencies\glfw\include;$(SolutionDir)dependencies\OpenGlCore;$(SolutionDir)dependencies\glm\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dependencies\stb;$(SolutionDir)dependencies\glfw\include;$(SolutionDir)dependencies\OpenGlCore;$(SolutionDir)dependencies\glm;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)dependencies\glfw\lib-vc2017\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

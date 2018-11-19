@@ -4,21 +4,21 @@
   OBJMesh.cpp
   NewOrbitCamera.cpp
   MyApplication.cpp
-c:\users\s171011\documents\computergraphicsengine\openglengine\openglengome\flycamera.h(14): warning C4099: 'GLFWwindow': type name first seen using 'struct' now seen using 'class'
-  c:\users\s171011\documents\computergraphicsengine\openglengine\dependencies\glfw\include\glfw\glfw3.h(786): note: see declaration of 'GLFWwindow'
-c:\users\s171011\documents\computergraphicsengine\openglengine\openglengome\myapplication.cpp(33): warning C4305: 'return': truncation from 'int' to 'bool'
-c:\users\s171011\documents\computergraphicsengine\openglengine\openglengome\myapplication.cpp(56): warning C4305: 'return': truncation from 'int' to 'bool'
+c:\users\s171011\desktop\graphics\trunk\openglengine\openglengome\flycamera.h(14): warning C4099: 'GLFWwindow': type name first seen using 'struct' now seen using 'class'
+  c:\users\s171011\desktop\graphics\trunk\openglengine\dependencies\glfw\include\glfw\glfw3.h(786): note: see declaration of 'GLFWwindow'
+c:\users\s171011\desktop\graphics\trunk\openglengine\openglengome\myapplication.cpp(33): warning C4305: 'return': truncation from 'int' to 'bool'
+c:\users\s171011\desktop\graphics\trunk\openglengine\openglengome\myapplication.cpp(56): warning C4305: 'return': truncation from 'int' to 'bool'
   Mesh.cpp
   main.cpp
-c:\users\s171011\documents\computergraphicsengine\openglengine\openglengome\flycamera.h(14): warning C4099: 'GLFWwindow': type name first seen using 'struct' now seen using 'class'
-  c:\users\s171011\documents\computergraphicsengine\openglengine\dependencies\glfw\include\glfw\glfw3.h(786): note: see declaration of 'GLFWwindow'
-c:\users\s171011\documents\computergraphicsengine\openglengine\openglengome\main.cpp(187): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\s171011\desktop\graphics\trunk\openglengine\openglengome\flycamera.h(14): warning C4099: 'GLFWwindow': type name first seen using 'struct' now seen using 'class'
+  c:\users\s171011\desktop\graphics\trunk\openglengine\dependencies\glfw\include\glfw\glfw3.h(786): note: see declaration of 'GLFWwindow'
+c:\users\s171011\desktop\graphics\trunk\openglengine\openglengome\main.cpp(181): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   Gizmos.cpp
   FlyCamera.cpp
-c:\users\s171011\documents\computergraphicsengine\openglengine\openglengome\flycamera.h(14): warning C4099: 'GLFWwindow': type name first seen using 'struct' now seen using 'class'
-  c:\users\s171011\documents\computergraphicsengine\openglengine\dependencies\glfw\include\glfw\glfw3.h(786): note: see declaration of 'GLFWwindow'
+c:\users\s171011\desktop\graphics\trunk\openglengine\openglengome\flycamera.h(14): warning C4099: 'GLFWwindow': type name first seen using 'struct' now seen using 'class'
+  c:\users\s171011\desktop\graphics\trunk\openglengine\dependencies\glfw\include\glfw\glfw3.h(786): note: see declaration of 'GLFWwindow'
   FirstPersonCamera.cpp
   Camera.cpp
   Generating Code...
 LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-  OpenglEngome.vcxproj -> C:\Users\s171011\Documents\ComputerGraphicsEngine\OpenglEngine\x64\Debug\OpenglEngineAssessment.exe
+  OpenglEngome.vcxproj -> C:\Users\s171011\Desktop\GRAPHICS\trunk\OpenglEngine\x64\Debug\OpenglEngineAssessment.exe

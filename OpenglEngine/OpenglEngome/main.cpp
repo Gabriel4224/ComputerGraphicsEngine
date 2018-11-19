@@ -26,9 +26,7 @@ public:
 		//**********************************************************************************************
 		// Loads in Shaders via file path
 		//**********************************************************************************************
-		m_shader.loadShader(aie::eShaderStage::VERTEX, "./shaders/test.vert");
-		m_shader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/test.frag");
-
+		 
 		m_PhongShader.loadShader(aie::eShaderStage::VERTEX, "./shaders/Phong.vert");
 		m_PhongShader.loadShader(aie::eShaderStage::FRAGMENT, "./shaders/Phong.frag");
 
@@ -59,11 +57,7 @@ public:
 		//**********************************************************************************************
 		//Checks Errors in linking the shaders
 		//**********************************************************************************************
-		if (m_shader.link() == false)
-		{
-			printf("shader Error: %s\n ", m_shader.getLastError());
-			return false;
-		}
+ 
 		if (m_PhongShader.link() == false)
 		{
 			printf("PhongShader Error: %s\n ", m_PhongShader.getLastError());
